@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.FilesMapper">
+	<sql id="files-columns">
+		id,filename,path,xiangmuid,type,f1,f2,f3,f4
+	</sql>
+	<insert id="add" parameterType="Files">
+		insert into
+		files(<include refid="files-columns"></include>)
+		values(#{id},#{filename},#{path},#{xiangmuid},#{type},#{f1},#{f2},#{f3},#{f4})
+	</insert>
+	<!--<resultMap id="user-map" type="user">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+		<result column="pass" property="pass"></result>
+	</resultMap>
+	<select id="selectPage" resultMap="user-map">
+		select <include refid="user-columns"></include>
+		from user
+	</select>
+	<update id="update" parameterType="User">
+		update user set name=#{name},pass=#{pass} where id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from user where id=#{id}
+	</delete>-->
+
+</mapper>

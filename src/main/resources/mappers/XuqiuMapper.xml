@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.XuqiuMapper">
+	<sql id="xuqiu-columns">
+		id,name,kaifatype,qiwangzq,shijizq,jishu,jianshu,attachid,status,kafazheid,time,yusuan,xuqiuid,kaifazhetype,xiangmutype,cankao,lianxiname,youxiang,shouji,test1,test2,test3,test4,test5
+	</sql>
+	<sql id="xiaoxi-columns">
+		id,xuqiuid,time,title,content,test1,test2,test3,test4,test5
+	</sql>
+	<insert id="add" parameterType="Xuqiu">
+		insert into
+		xuqiu(<include refid="xuqiu-columns"></include>)
+		values(#{id},#{name},#{kaifatype},#{qiwangzq},#{shijizq},#{jishu},#{jianshu},#{attachid},#{status},#{kafazheid},#{time},#{yusuan},#{xuqiuid},#{kaifazhetype},#{xiangmutype},#{cankao},#{lianxiname},#{youxiang},#{shouji},#{test1},#{test2},'0',#{test4},#{test5})
+	</insert>
+	<select id="query" resultType="xuqiu">
+		SELECT <include refid="xuqiu-columns"/> from xuqiu where test3 ='0'
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>
+			<if test="xuqiuid!=null and xuqiuid!=''">
+				and xuqiuid = #{xuqiuid}
+			</if>
+		    <if test="kaifatype!=null and kaifatype!=''">
+			   and kaifatype = #{kaifatype}
+		    </if>
+			<if test="test2!=null and test2!=''">
+				and test2 = #{test2}
+			</if>
+
+	</select>
+	<select id="queryInfoById"  resultType="xuqiu">
+		SELECT <include refid="xuqiu-columns"/> from xuqiu where 1=1
+		<if test="id!=null and id!=''">
+			and id=#{id}
+		</if>
+	</select>
+	<update id="update" parameterType="Xuqiu">
+		update xuqiu set name=#{name},kaifatype=#{kaifatype},qiwangzq=#{qiwangzq},shijizq=#{shijizq},jianshu=#{jianshu},attachid=#{attachid},status=#{status},kafazheid=#{kafazheid},time=#{time},yusuan=#{yusuan},xuqiuid=#{xuqiuid},kaifazhetype=#{kaifazhetype},xiangmutype=#{xiangmutype},cankao=#{cankao},lianxiname=#{lianxiname},youxiang=#{youxiang},shouji=#{shouji},test1=#{test1},test2=#{test2},test3=#{test3},test4=#{test4},test5=#{test5} where id=#{id}
+	</update>
+	<select id="queryAllType" resultType="Kaifatype">
+		SELECT id,bh,name from kaifatype
+
+	</select>
+	<update id="updateCanyu" parameterType="Xuqiu">
+		update xuqiu set status=#{status},test1=#{test1},test2=#{test2} where id=#{id}
+	</update>
+	<update id="updateXiaoxi" parameterType="Xuqiu">
+		update xuqiu set test1=#{test1} where id=#{id}
+	</update>
+	<insert id="addXiaoxi" parameterType="Xiaoxi">
+		insert into
+		xiaoxi(<include refid="xiaoxi-columns"></include>)
+		values(#{id},#{xuqiuid},#{time},#{title},#{content},#{test1},#{test2},#{test3},#{test4},#{test5})
+	</insert>
+	<select id="queryXiaoxi" resultType="xiaoxi">
+		SELECT <include refid="xiaoxi-columns"/> from xiaoxi
+		where xuqiuid =#{xuqiuid}
+		order by id desc
+	</select>
+	<!--<resultMap id="user-map" type="user">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+		<result column="pass" property="pass"></result>
+	</resultMap>
+	<select id="selectPage" resultMap="user-map">
+		select <include refid="user-columns"></include>
+		from user
+	</select>
+	<update id="update" parameterType="User">
+		update user set name=#{name},pass=#{pass} where id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from user where id=#{id}
+	</delete>-->
+
+</mapper>

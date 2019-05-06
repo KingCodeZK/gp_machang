@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.TjMapper">
+	<select id="query" resultType="yonghu">
+		select count(id) as count ,type,test2 from yonghu GROUP BY type,test2 having type!='2'
+</select>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.UserMapper">
+	<sql id="user-columns">
+		id,name,pass
+	</sql>
+	<insert id="add" parameterType="User">
+		insert into
+		user(<include refid="user-columns"></include>)
+		values(#{id},#{name},#{pass})
+	</insert>
+	<resultMap id="user-map" type="user">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+		<result column="pass" property="pass"></result>
+	</resultMap>
+	<select id="selectPage" resultMap="user-map">
+		select <include refid="user-columns"></include>
+		from user
+	</select>
+	<update id="update" parameterType="User">
+		update user set name=#{name},pass=#{pass} where id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from user where id=#{id}
+	</delete>
+
+</mapper>

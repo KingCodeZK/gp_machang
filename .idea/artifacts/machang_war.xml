@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="machang:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="machang.war">
+      <element id="artifact" artifact-name="machang:war exploded" />
+    </root>
+  </artifact>
+</component>

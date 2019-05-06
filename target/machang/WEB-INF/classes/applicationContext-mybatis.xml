@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.0.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<!--引入资源文件properties-->
+	<context:property-placeholder location="classpath:jdbc.properties" file-encoding="UTF-8"/>
+	<!--1.配置数据源-->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!--驱动-->
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<!--url-->
+		<property name="url" value="${jdbc.url}"></property>
+		<!--用户名-->
+		<property name="username" value="${jdbc.username}"></property>
+		<!--密码-->
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	<!--2.配置Mybatis sql.xml配置文件 并解析xml-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--注入数据源-->
+		<property name="dataSource" ref="dataSource"></property>
+		<!--加载mybatis sql.xml配置文件  并解析xml-->
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mappers/*.xml</value>
+			</array>
+		</property>
+		<!--起别名-->
+		<property name="typeAliasesPackage" value="com.etoak.bean"></property>
+		<!--插件-->
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<value>
+							helperDialect=mysql
+						</value>
+
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+	<!--3.扫描接口-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 引入SqlSessionFactoryBean对象 -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!-- 扫描接口 并创建对象 -->
+		<property name="basePackage"
+				  value="com.etoak.mapper"></property>
+		<!-- 扫描@Repository注解  接口才会创建对象 -->
+		<property name="annotationClass" value="org.springframework.stereotype.Repository"></property>
+	</bean>
+	<!--4.配置事务管理器-->
+	<bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!--注入数据源 开启事务-->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--
+   		5.使用声明式事务 注解
+   		proxy-target-class   true使用cglib代理
+   		transaction-manager  引入事务管理
+   -->
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="tx" />
+
+
+
+</beans>

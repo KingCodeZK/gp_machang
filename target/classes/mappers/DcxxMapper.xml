@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.DcxxMapper">
+	<sql id="dcxx">
+		id,bno,bxh,gys,blb,sysl
+	</sql>
+	<sql id="xuqiu">
+		id,name,kaifatype,qiwangzq,shijizq,jishu,jianshu,attachid,time,yusuan,xuqiuid,kaifazhetype,xiangmutype,cankao,lianxiname,youxiang,shouji,test1,test2,test3,test4,test5,test6
+	</sql>
+	<select id="query" resultType="xuqiu">
+		SELECT id,name,kaifatype,qiwangzq,status,shijizq,jishu,jianshu,attachid,time,yusuan,xuqiuid,kaifazhetype,xiangmutype,cankao,lianxiname,youxiang,shouji,test1,test2,test3,test4,test5 from xuqiu
+			where test3 ='0'
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>
+
+	</select>
+	<select id="findEmpByPrimaryKey" parameterType="integer" resultType="dcxx">
+		SELECT id,bno,bxh,gys,blb,sysl from dcxx where id=#{id}
+	</select>
+	<insert id="add" parameterType="emp">
+		INSERT INTO dcxx(<include refid="dcxx"/>) VALUE (#{id},#{bno},#{bxh},#{gys},#{blb},#{sysl})
+	</insert>
+	<select id="getBXH" parameterType="string" resultType="dcxx">
+		SELECT <include refid="dcxx"/> FROM dcxx where gys = #{gys}
+	</select>
+	<delete id="remove" parameterType="java.util.List">
+		update xuqiu set test3 = '1' where id in <foreach collection="ids" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+
+	</delete>
+
+	<update id="update" parameterType="dcxx">
+		update
+		dcxx
+		set
+		blb=#{blb},
+		gys=#{gys}
+		where
+		id = #{id}
+	</update>
+	<select id="findDcxxByPid" resultType="dcxx">
+		SELECT <include refid="dcxx"/> FROM dcxx WHERE pid=#{pid}
+	</select>
+	<select id="findDcxxBno" parameterType="string" resultType="dcxx">
+		SELECT <include refid="dcxx"/> FROM dcxx where bno=#{bno}
+	</select>
+	<update id="updateSyslJia" parameterType="dcxx">
+		UPDATE dcxx SET sysl=#{sysl} where id=#{id}
+	</update>
+
+
+
+
+
+</mapper>
